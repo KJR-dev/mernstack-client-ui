@@ -1,4 +1,6 @@
 import { Button } from "@/components/ui/button";
+import { Card, CardHeader, CardTitle, CardDescription, CardAction, CardContent, CardFooter } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Image from 'next/image';
 
 export default function Home() {
@@ -37,6 +39,32 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="px-60">
+        <div className="container py-12">
+          <Tabs defaultValue="pizza" className="w-[400px]">
+            <TabsList>
+              <TabsTrigger className="text-md" value="pizza">Pizza</TabsTrigger>
+              <TabsTrigger className="text-md" value="beverages">Beverages</TabsTrigger>
+            </TabsList>
+            <TabsContent value="pizza">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Card Title</CardTitle>
+                  <CardDescription>Card Description</CardDescription>
+                  <CardAction>Card Action</CardAction>
+                </CardHeader>
+                <CardContent>
+                  <p>Card Content</p>
+                </CardContent>
+                <CardFooter>
+                  <p>Card Footer</p>
+                </CardFooter>
+              </Card>
+            </TabsContent>
+            <TabsContent value="password">Beverages here.</TabsContent>
+          </Tabs>
+        </div>
+      </section>
 
 
     </>
