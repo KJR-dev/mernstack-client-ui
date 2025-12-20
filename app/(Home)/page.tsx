@@ -63,7 +63,7 @@ export default function Home() {
           </div>
 
           {/* right image */}
-          <div className="flex-shrink-0">
+          <div className="shrink-0">
             <Image
               src="/pizza-main.png"
               alt="pizza"
