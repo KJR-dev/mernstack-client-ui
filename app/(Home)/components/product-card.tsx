@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import {
   Dialog,
@@ -8,6 +9,7 @@ import {
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
+import { ShoppingCart } from "lucide-react";
 import Image from "next/image";
 import ToppingList from "./topping-list";
 
@@ -157,6 +159,13 @@ const ProductCard = ({ product }: PropTypes) => {
 
                 <h4>Extra toppings</h4>
                 <ToppingList></ToppingList>
+                <div className="flex items-center justify-between mt-12">
+                  <span className="font-bold">₹400</span>
+                  <Button>
+                    <ShoppingCart size={20}/>
+                    <span className="ml-2">Add to cart</span>
+                  </Button>
+                </div>
               </div>
             </div>
           </DialogContent>
