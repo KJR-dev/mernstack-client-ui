@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import Image from "next/image";
+import ToppingList from "./topping-list";
 
 export type Product = {
   _id: string;
@@ -57,10 +58,11 @@ const ProductCard = ({ product }: PropTypes) => {
             </VisuallyHidden>
 
             <div className="flex ">
+              {/* //// Left */}
               <div className="w-1/3 bg-white rounded p-8 flex items-center justify-center">
                 <Image src={product.image} alt={product.name} width={150} height={150} />
               </div>
-
+              {/* //// Right */}
               <div className="w-2/3 p-8">
                 <h3 className="'text-xl font-bold">{product.name}</h3>
                 <p className="text-sm mt-1">{product.description}</p>
@@ -152,6 +154,9 @@ const ProductCard = ({ product }: PropTypes) => {
                     </div>
                   </RadioGroup>
                 </div>
+
+                <h4>Extra toppings</h4>
+                <ToppingList></ToppingList>
               </div>
             </div>
           </DialogContent>
