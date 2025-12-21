@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Category } from "@/lib/types";
 import Image from "next/image";
 import ProductCard, { Product } from "./components/product-card";
 
@@ -41,7 +42,19 @@ export const products: Product[] = [
   },
 ];
 
-export default function Home() {
+export default async function Home() {
+  const categoriesResponse = await fetch(
+    `${process.env.BACKEND_CATEGORIES_URL}/api/v1/catalog/categories`,
+    { next: { revalidate: 3600 } }
+  );
+
+  if (!categoriesResponse.ok) {
+    throw new Error("Failed to fetch categories");
+  }
+
+  const categories: Category[] = await categoriesResponse.json();
+  console.log("📖📖", categories);
+
   return (
     <>
       <section className="bg-white py-10 px-60">
@@ -78,7 +91,12 @@ export default function Home() {
       <section className="container mx-auto py-8">
         <Tabs defaultValue="pizza">
           <TabsList>
-            <TabsTrigger value="pizza">Pizza</TabsTrigger>
+            {categories?.map((category) => (
+              <TabsTrigger value={category._id} key={category._id}>
+                {category.name}
+              </TabsTrigger>
+            ))}
+
             <TabsTrigger value="burger">Burger</TabsTrigger>
           </TabsList>
 
