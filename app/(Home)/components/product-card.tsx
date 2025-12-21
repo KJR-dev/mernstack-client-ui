@@ -12,14 +12,7 @@ import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { ShoppingCart } from "lucide-react";
 import Image from "next/image";
 import ToppingList from "./topping-list";
-
-export type Product = {
-  _id: string;
-  name: string;
-  description: string;
-  image: string;
-  price: number;
-};
+import { Product } from "@/lib/types";
 
 type PropTypes = {
   product: Product;
@@ -46,7 +39,7 @@ const ProductCard = ({ product }: PropTypes) => {
       <CardFooter className="flex items-center justify-between px-6 py-4">
         <p className="text-lg">
           <span className="text-gray-500">From </span>
-          <span className="font-bold text-orange-500">₹{product.price}</span>
+          <span className="font-bold text-orange-500">₹{400}</span>
         </p>
 
         <Dialog>
