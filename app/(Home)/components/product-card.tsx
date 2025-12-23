@@ -1,6 +1,7 @@
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Product } from "@/lib/types";
 import Image from "next/image";
+import { Suspense } from "react";
 import ProductModel from "./product-model";
 
 type PropTypes = {
@@ -32,7 +33,7 @@ const ProductCard = ({ product }: PropTypes) => {
             ₹{Object.values(product.priceConfiguration.Size.availableOptions)[0]}
           </span>
         </p>
-        <ProductModel product={product} />
+          <ProductModel product={product} />
       </CardFooter>
     </Card>
   );

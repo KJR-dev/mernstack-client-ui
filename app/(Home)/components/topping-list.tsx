@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
-import ToppingCard from "./topping-card";
 import { Topping } from "@/lib/types";
+import { startTransition, useEffect, useState } from "react";
+import ToppingCard from "./topping-card";
 
 const toppings = [
   { id: "1", name: "Chicken", image: "/chicken.png", price: 50, isAvailable: true },
@@ -10,7 +10,7 @@ const toppings = [
 
 const ToppingList = () => {
   const [toppings, setToppings] = useState<Topping[]>([]);
-  useEffect(() => { 
+  useEffect(() => {
     const fetchData = async () => {
       const tenantId = 3;
       const toppingResponse = await fetch(
@@ -25,11 +25,14 @@ const ToppingList = () => {
   const [selectedToppings, setSelectedToppings] = useState<Topping[]>([]);
   const handleCheckBoxCheck = (topping: Topping) => {
     const isAlreadyExists = selectedToppings.some((element) => element.id === topping.id);
-    if (isAlreadyExists) {
-      setSelectedToppings((prev) => prev.filter((elem) => elem.id !== topping.id));
-      return;
-    }
-    setSelectedToppings((prev) => [...prev, topping]);
+
+    startTransition(() => {
+      if (isAlreadyExists) {
+        setSelectedToppings((prev) => prev.filter((elem) => elem.id !== topping.id));
+        return;
+      }
+      setSelectedToppings((prev) => [...prev, topping]);
+    });
   };
   return (
     <section className="mt-6">

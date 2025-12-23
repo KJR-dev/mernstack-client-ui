@@ -13,6 +13,7 @@ import { RadioGroup, RadioGroupItem } from "@radix-ui/react-radio-group";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { ShoppingCart } from "lucide-react";
 import Image from "next/image";
+import { Suspense } from "react";
 import ToppingList from "./topping-list";
 
 const ProductModel = ({ product }: { product: Product }) => {
@@ -70,8 +71,9 @@ const ProductModel = ({ product }: { product: Product }) => {
                 </div>
               );
             })}
-
-            <ToppingList />
+            <Suspense fallback={"Topping loading..."}>
+              <ToppingList />
+            </Suspense>
             <div className="flex items-center justify-between mt-12">
               <span className="font-bold">
                 ₹{Object.values(product.priceConfiguration.Size.availableOptions)[0]}
