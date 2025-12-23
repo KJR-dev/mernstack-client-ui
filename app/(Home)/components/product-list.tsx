@@ -13,7 +13,6 @@ const ProductList = async () => {
   }
 
   const categories: Category[] = await categoriesResponse.json();
-  // console.log("📖📖", categories);
 
   const productResponse = await fetch(
     `${process.env.BACKEND_CATEGORIES_URL}/api/v1/catalog/products?currentPage=100&tenantId=4`,

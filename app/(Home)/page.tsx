@@ -32,6 +32,7 @@ export default async function Home() {
               width={320}
               height={320}
               className="w-auto h-auto"
+              loading="eager"
             />
           </div>
         </div>

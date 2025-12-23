@@ -1,7 +1,9 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
@@ -14,18 +16,22 @@ import Image from "next/image";
 import ToppingList from "./topping-list";
 
 const ProductModel = ({ product }: { product: Product }) => {
+  const handleAddToCart = () => {
+    console.log("Adding to the cart.......");
+  };
   return (
     <Dialog>
       <DialogTrigger className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-full shadow hover:shadow-lg transition">
         Choose
       </DialogTrigger>
 
-      <DialogContent className="max-w-3xl p-0">
+      <DialogContent className="w-full p-0">
         <VisuallyHidden>
           <DialogTitle>{product.name}</DialogTitle>
+          <DialogDescription>{product.description}</DialogDescription>
         </VisuallyHidden>
 
-        <div className="flex ">
+        <div className="flex">
           {/* //// Left */}
           <div className="w-1/3 bg-white rounded p-8 flex items-center justify-center">
             <Image src={product.image} alt={product.name} width={150} height={150} />
@@ -67,8 +73,10 @@ const ProductModel = ({ product }: { product: Product }) => {
 
             <ToppingList />
             <div className="flex items-center justify-between mt-12">
-              <span className="font-bold">₹400</span>
-              <Button>
+              <span className="font-bold">
+                ₹{Object.values(product.priceConfiguration.Size.availableOptions)[0]}
+              </span>
+              <Button onClick={handleAddToCart}>
                 <ShoppingCart size={20} />
                 <span className="ml-2">Add to cart</span>
               </Button>

@@ -16,7 +16,7 @@ const ProductCard = ({ product }: PropTypes) => {
           alt={product.name}
           width={150}
           height={150}
-          className="rounded-md object-contain"
+          className="h-36 w-36 object-contain"
         />
       </CardHeader>
 
@@ -28,7 +28,9 @@ const ProductCard = ({ product }: PropTypes) => {
       <CardFooter className="flex items-center justify-between px-6 py-4">
         <p className="text-lg">
           <span className="text-gray-500">From </span>
-          <span className="font-bold text-orange-500">₹{400}</span>
+          <span className="font-bold text-orange-500">
+            ₹{Object.values(product.priceConfiguration.Size.availableOptions)[0]}
+          </span>
         </p>
         <ProductModel product={product} />
       </CardFooter>
