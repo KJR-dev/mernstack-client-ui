@@ -5,6 +5,7 @@ import Link from "next/link";
 
 const CartCounter = () => {
   const cartItems = useAppSelector((state) => state.cart.cartItems);
+
   return (
     <div className="relative">
       <Link href="/cart">

@@ -9,7 +9,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
-import CartCounter from "./cart-counter";
+import HeaderActions from "./header-actions.client";
 
 const Header = async () => {
   const tenantResponse = await fetch(
@@ -67,7 +67,7 @@ const Header = async () => {
               </Link>
             </li>
           </ul>
-          <CartCounter />
+          <HeaderActions />
           <div className="flex item-center ml-12">
             <Phone />
             <span>+91 7978020151</span>
