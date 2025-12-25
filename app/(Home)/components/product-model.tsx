@@ -13,12 +13,24 @@ import { RadioGroup, RadioGroupItem } from "@radix-ui/react-radio-group";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { ShoppingCart } from "lucide-react";
 import Image from "next/image";
-import { Suspense } from "react";
+import { startTransition, Suspense, useState } from "react";
 import ToppingList from "./topping-list";
 
+type chosenConfig = {
+  [key: string]: string;
+};
 const ProductModel = ({ product }: { product: Product }) => {
+  const [chosenConfig, setChosenConfig] = useState<chosenConfig>();
+
   const handleAddToCart = () => {
     console.log("Adding to the cart.......");
+  };
+  const handleRadioChange = (key: string, data: string) => {
+    startTransition(() => {
+      setChosenConfig((prev) => {
+        return { ...prev, [key]: data };
+      });
+    });
   };
   return (
     <Dialog>
@@ -47,6 +59,9 @@ const ProductModel = ({ product }: { product: Product }) => {
                   <h4 className="mt-4">Choose the {key}</h4>
                   <RadioGroup
                     defaultValue={value.availableOptions[0]}
+                    onValueChange={(data) => {
+                      handleRadioChange(key, data);
+                    }}
                     className="grid grid-cols-3 gap-4 mt-2"
                   >
                     {value.availableOptions.map((option) => {
