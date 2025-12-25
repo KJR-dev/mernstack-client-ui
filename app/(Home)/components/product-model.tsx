@@ -8,6 +8,8 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
+import { addToCart } from "@/lib/store/features/cart/cartSlice";
+import { useAppDispatch } from "@/lib/store/hooks";
 import { Product, Topping } from "@/lib/types";
 import { RadioGroup, RadioGroupItem } from "@radix-ui/react-radio-group";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
@@ -20,24 +22,30 @@ type chosenConfig = {
   [key: string]: string;
 };
 const ProductModel = ({ product }: { product: Product }) => {
+  const dispatch = useAppDispatch();
   const [chosenConfig, setChosenConfig] = useState<chosenConfig>();
-    const [selectedToppings, setSelectedToppings] = useState<Topping[]>([]);
-    const handleCheckBoxCheck = (topping: Topping) => {
-      const isAlreadyExists = selectedToppings.some(
-        (element) => element.id === topping.id
-      );
+  const [selectedToppings, setSelectedToppings] = useState<Topping[]>([]);
+  const handleCheckBoxCheck = (topping: Topping) => {
+    const isAlreadyExists = selectedToppings.some((element) => element.id === topping.id);
 
-      startTransition(() => {
-        if (isAlreadyExists) {
-          setSelectedToppings((prev) => prev.filter((elem) => elem.id !== topping.id));
-          return;
-        }
-        setSelectedToppings((prev) => [...prev, topping]);
-      });
+    startTransition(() => {
+      if (isAlreadyExists) {
+        setSelectedToppings((prev) => prev.filter((elem) => elem.id !== topping.id));
+        return;
+      }
+      setSelectedToppings((prev) => [...prev, topping]);
+    });
+  };
+
+  const handleAddToCart = (product:Product) => {
+    const itemToAdd = {
+      product,
+      chosenConfiguration: {
+        priceConfiguration: chosenConfig!,
+        selectedToppings: selectedToppings,
+      },
     };
-
-  const handleAddToCart = () => {
-    console.log("Adding to the cart.......");
+    dispatch(addToCart(itemToAdd));
   };
   const handleRadioChange = (key: string, data: string) => {
     startTransition(() => {
@@ -101,13 +109,16 @@ const ProductModel = ({ product }: { product: Product }) => {
               );
             })}
             <Suspense fallback={"Topping loading..."}>
-              <ToppingList selectedToppings={selectedToppings} handleCheckBoxCheck={handleCheckBoxCheck} />
+              <ToppingList
+                selectedToppings={selectedToppings}
+                handleCheckBoxCheck={handleCheckBoxCheck}
+              />
             </Suspense>
             <div className="flex items-center justify-between mt-12">
               <span className="font-bold">
                 ₹{Object.values(product.priceConfiguration.Size.availableOptions)[0]}
               </span>
-              <Button onClick={handleAddToCart}>
+              <Button onClick={() => handleAddToCart(product)}>
                 <ShoppingCart size={20} />
                 <span className="ml-2">Add to cart</span>
               </Button>
