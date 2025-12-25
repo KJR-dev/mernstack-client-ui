@@ -8,7 +8,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
-import { Product } from "@/lib/types";
+import { Product, Topping } from "@/lib/types";
 import { RadioGroup, RadioGroupItem } from "@radix-ui/react-radio-group";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { ShoppingCart } from "lucide-react";
@@ -21,6 +21,20 @@ type chosenConfig = {
 };
 const ProductModel = ({ product }: { product: Product }) => {
   const [chosenConfig, setChosenConfig] = useState<chosenConfig>();
+    const [selectedToppings, setSelectedToppings] = useState<Topping[]>([]);
+    const handleCheckBoxCheck = (topping: Topping) => {
+      const isAlreadyExists = selectedToppings.some(
+        (element) => element.id === topping.id
+      );
+
+      startTransition(() => {
+        if (isAlreadyExists) {
+          setSelectedToppings((prev) => prev.filter((elem) => elem.id !== topping.id));
+          return;
+        }
+        setSelectedToppings((prev) => [...prev, topping]);
+      });
+    };
 
   const handleAddToCart = () => {
     console.log("Adding to the cart.......");
@@ -87,7 +101,7 @@ const ProductModel = ({ product }: { product: Product }) => {
               );
             })}
             <Suspense fallback={"Topping loading..."}>
-              <ToppingList />
+              <ToppingList selectedToppings={selectedToppings} handleCheckBoxCheck={handleCheckBoxCheck} />
             </Suspense>
             <div className="flex items-center justify-between mt-12">
               <span className="font-bold">

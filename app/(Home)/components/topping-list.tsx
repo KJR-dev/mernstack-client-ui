@@ -1,5 +1,5 @@
 import { Topping } from "@/lib/types";
-import { startTransition, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import ToppingCard from "./topping-card";
 
 const toppings = [
@@ -8,7 +8,13 @@ const toppings = [
   { id: "3", name: "Cheese", image: "/cheese.png", price: 50, isAvailable: true },
 ];
 
-const ToppingList = () => {
+const ToppingList = ({
+  selectedToppings,
+  handleCheckBoxCheck,
+}: {
+  selectedToppings: Topping[];
+  handleCheckBoxCheck: (topping: Topping) => void;
+}) => {
   const [toppings, setToppings] = useState<Topping[]>([]);
   useEffect(() => {
     const fetchData = async () => {
@@ -22,18 +28,7 @@ const ToppingList = () => {
     };
     fetchData();
   }, []);
-  const [selectedToppings, setSelectedToppings] = useState<Topping[]>([]);
-  const handleCheckBoxCheck = (topping: Topping) => {
-    const isAlreadyExists = selectedToppings.some((element) => element.id === topping.id);
 
-    startTransition(() => {
-      if (isAlreadyExists) {
-        setSelectedToppings((prev) => prev.filter((elem) => elem.id !== topping.id));
-        return;
-      }
-      setSelectedToppings((prev) => [...prev, topping]);
-    });
-  };
   return (
     <section className="mt-6">
       <h3>Extra Toppings</h3>
