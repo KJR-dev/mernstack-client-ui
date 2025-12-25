@@ -23,7 +23,21 @@ type chosenConfig = {
 };
 const ProductModel = ({ product }: { product: Product }) => {
   const dispatch = useAppDispatch();
-  const [chosenConfig, setChosenConfig] = useState<chosenConfig>();
+  const defaultConfiguration = Object.entries(product.category.priceConfiguration)
+    .map(([key, value]) => {
+      return { [key]: value.availableOptions[0] };
+    })
+    .reduce(
+      (acc, curr) => ({
+        ...acc,
+        ...curr,
+      }),
+      {}
+    );
+
+  const [chosenConfig, setChosenConfig] = useState<chosenConfig>(
+    defaultConfiguration as unknown as chosenConfig
+  );
   const [selectedToppings, setSelectedToppings] = useState<Topping[]>([]);
   const handleCheckBoxCheck = (topping: Topping) => {
     const isAlreadyExists = selectedToppings.some((element) => element.id === topping.id);
@@ -37,7 +51,7 @@ const ProductModel = ({ product }: { product: Product }) => {
     });
   };
 
-  const handleAddToCart = (product:Product) => {
+  const handleAddToCart = (product: Product) => {
     const itemToAdd = {
       product,
       chosenConfiguration: {
