@@ -97,6 +97,7 @@ const ProductModel = ({ product }: { product: Product }) => {
       qty: 1,
     };
     dispatch(addToCart(itemToAdd));
+    setSelectedToppings([]);
     setDialogOpen(false);
   };
   const handleRadioChange = (key: string, data: string) => {
