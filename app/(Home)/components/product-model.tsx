@@ -15,7 +15,7 @@ import { RadioGroup, RadioGroupItem } from "@radix-ui/react-radio-group";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { ShoppingCart } from "lucide-react";
 import Image from "next/image";
-import { startTransition, Suspense, useState } from "react";
+import { startTransition, Suspense, useMemo, useState } from "react";
 import ToppingList from "./topping-list";
 
 type chosenConfig = {
@@ -39,6 +39,19 @@ const ProductModel = ({ product }: { product: Product }) => {
     defaultConfiguration as unknown as chosenConfig
   );
   const [selectedToppings, setSelectedToppings] = useState<Topping[]>([]);
+
+  const totalPrice = useMemo(() => {
+    const totalToppingPrice = selectedToppings.reduce((acc, curr) => acc + curr.price, 0);
+    const totalConfigPrice = Object.entries(chosenConfig).reduce(
+      (acc, [key, value]: [string, string]) => {
+        const price = product.priceConfiguration[key].availableOptions[value];
+        return acc + price;
+      },
+      0
+    );
+    return totalConfigPrice + totalToppingPrice;
+  }, [chosenConfig, selectedToppings]);
+
   const handleCheckBoxCheck = (topping: Topping) => {
     const isAlreadyExists = selectedToppings.some((element) => element.id === topping.id);
 
@@ -129,9 +142,7 @@ const ProductModel = ({ product }: { product: Product }) => {
               />
             </Suspense>
             <div className="flex items-center justify-between mt-12">
-              <span className="font-bold">
-                ₹{Object.values(product.priceConfiguration.Size.availableOptions)[0]}
-              </span>
+              <span className="font-bold">₹ {totalPrice}</span>
               <Button onClick={() => handleAddToCart(product)}>
                 <ShoppingCart size={20} />
                 <span className="ml-2">Add to cart</span>

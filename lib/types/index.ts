@@ -30,13 +30,22 @@ export type ProductAttribute = {
   value: string | boolean;
 };
 
+export interface ProductPriceConfiguration {
+  [key: string]: {
+    priceType: "base" | "additional";
+    availableOptions: {
+      [key: string]:number
+    };
+  };
+}
+
 export type Product = {
   _id: string;
   name: string;
   description: string;
   image: string;
   category: Category;
-  priceConfiguration: PriceConfiguration;
+  priceConfiguration: ProductPriceConfiguration;
   attributes: ProductAttribute[];
   isPublish: boolean;
   createdAt: string;
