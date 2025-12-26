@@ -24,6 +24,7 @@ type chosenConfig = {
 };
 
 const ProductModel = ({ product }: { product: Product }) => {
+  const [dialogOpen, setDialogOpen] = useState(false);
   const cartItems = useAppSelector((state) => state.cart.cartItems);
   const dispatch = useAppDispatch();
   const defaultConfiguration = Object.entries(product.category.priceConfiguration)
@@ -96,6 +97,7 @@ const ProductModel = ({ product }: { product: Product }) => {
       qty: 1,
     };
     dispatch(addToCart(itemToAdd));
+    setDialogOpen(false);
   };
   const handleRadioChange = (key: string, data: string) => {
     startTransition(() => {
@@ -105,7 +107,7 @@ const ProductModel = ({ product }: { product: Product }) => {
     });
   };
   return (
-    <Dialog>
+    <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
       <DialogTrigger className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-full shadow hover:shadow-lg transition">
         Choose
       </DialogTrigger>
