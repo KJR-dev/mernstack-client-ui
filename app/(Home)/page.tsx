@@ -1,9 +1,15 @@
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import ProductList from "./components/product-list";
 import { Suspense } from "react";
+import ProductList from "./components/product-list";
 
-export default async function Home() {
+export default async function Home({
+  searchParams,
+}: {
+  searchParams: Promise<{ tenantId?: string }>;
+  }) {
+    const resolvedSearchParams = await searchParams;
+    const tenantId = resolvedSearchParams?.tenantId;
   return (
     <>
       <section className="bg-white py-10 px-60">
@@ -39,9 +45,8 @@ export default async function Home() {
       </section>
 
       <Suspense fallback={"Loading..."}>
-        <ProductList />
+        <ProductList searchParams={{ tenantId }} />
       </Suspense>
-      
     </>
   );
 }

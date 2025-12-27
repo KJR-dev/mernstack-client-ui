@@ -1,7 +1,7 @@
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Product } from "@/lib/types";
+import { getFromPrice } from "@/lib/utils";
 import Image from "next/image";
-import { Suspense } from "react";
 import ProductModel from "./product-model";
 
 type PropTypes = {
@@ -29,11 +29,9 @@ const ProductCard = ({ product }: PropTypes) => {
       <CardFooter className="flex items-center justify-between px-6 py-4">
         <p className="text-lg">
           <span className="text-gray-500">From </span>
-          <span className="font-bold text-orange-500">
-            ₹{Object.values(product.priceConfiguration.Size.availableOptions)[0]}
-          </span>
+          <span className="font-bold text-orange-500">₹ {getFromPrice(product)}</span>
         </p>
-          <ProductModel product={product} />
+        <ProductModel product={product} />
       </CardFooter>
     </Card>
   );

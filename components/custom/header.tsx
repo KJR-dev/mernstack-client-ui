@@ -2,14 +2,8 @@ import { Tenant } from "@/lib/types";
 import { Phone } from "lucide-react";
 import Link from "next/link";
 import { Button } from "../ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "../ui/select";
 import HeaderActions from "./header-actions.client";
+import TenantSelect from "./tenant-select";
 
 const Header = async () => {
   const tenantResponse = await fetch(
@@ -41,18 +35,7 @@ const Header = async () => {
               fill="#484848"
             />
           </svg>
-          <Select>
-            <SelectTrigger className="w-[180px] focus:ring-0">
-              <SelectValue placeholder="Select Restaurant" />
-            </SelectTrigger>
-            <SelectContent>
-              {tenants?.data.map((tenant) => (
-                <SelectItem value={tenant.id} key={tenant.id}>
-                  {tenant.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          <TenantSelect tenants={tenants} />
         </div>
         <div className="flex items-center gap-x-4">
           <ul className="flex items-center font-medium space-x-4">
