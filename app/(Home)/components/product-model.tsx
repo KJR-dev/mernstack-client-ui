@@ -17,6 +17,7 @@ import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { ShoppingCart } from "lucide-react";
 import Image from "next/image";
 import { startTransition, Suspense, useMemo, useState } from "react";
+import { toast } from "sonner";
 import ToppingList from "./topping-list";
 
 type chosenConfig = {
@@ -96,6 +97,7 @@ const ProductModel = ({ product }: { product: Product }) => {
       },
       qty: 1,
     };
+    toast.success("Added to cart");
     dispatch(addToCart(itemToAdd));
     setSelectedToppings([]);
     setDialogOpen(false);
