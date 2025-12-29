@@ -7,9 +7,9 @@ export default async function Home({
   searchParams,
 }: {
   searchParams: Promise<{ tenantId?: string }>;
-  }) {
-    const resolvedSearchParams = await searchParams;
-    const tenantId = resolvedSearchParams?.tenantId;
+}) {
+  const resolvedSearchParams = await searchParams;
+  const tenantId = resolvedSearchParams?.tenantId;
   return (
     <>
       <section className="bg-white py-10 px-60">

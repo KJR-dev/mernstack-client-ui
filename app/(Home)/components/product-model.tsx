@@ -165,6 +165,7 @@ const ProductModel = ({ product }: { product: Product }) => {
             })}
             <Suspense fallback={"Topping loading..."}>
               <ToppingList
+                tenantId={product?.tenantId ?? ""}
                 selectedToppings={selectedToppings}
                 handleCheckBoxCheck={handleCheckBoxCheck}
               />

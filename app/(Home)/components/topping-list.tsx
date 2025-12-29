@@ -4,9 +4,11 @@ import { useEffect, useState } from "react";
 import ToppingCard from "./topping-card";
 
 const ToppingList = ({
+  tenantId,
   selectedToppings,
   handleCheckBoxCheck,
 }: {
+  tenantId: string;
   selectedToppings: Topping[];
   handleCheckBoxCheck: (topping: Topping) => void;
 }) => {
@@ -15,7 +17,7 @@ const ToppingList = ({
   useEffect(() => {
     const fetchData = async () => {
       const toppingResponse = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_CATEGORIES_URL}/api/v1/catalog/topping/${searchParams.get("tenantId")}`,
+        `${process.env.NEXT_PUBLIC_BACKEND_CATEGORIES_URL}/api/v1/catalog/topping/${tenantId}`,
         { next: { revalidate: 3600 } }
       );
       const toppings = await toppingResponse.json();
@@ -28,7 +30,7 @@ const ToppingList = ({
     <section className="mt-6">
       <h3>Extra Toppings</h3>
       <div className="grid grid-cols-3 gap-4 mt-2">
-        {toppings.map((topping) => {
+        {toppings?.map((topping) => {
           return (
             <ToppingCard
               topping={topping}
