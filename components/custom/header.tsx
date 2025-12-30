@@ -1,3 +1,4 @@
+import { getSession } from "@/lib/session";
 import { Tenant } from "@/lib/types";
 import { Phone } from "lucide-react";
 import Link from "next/link";
@@ -6,6 +7,7 @@ import HeaderActions from "./header-actions.client";
 import TenantSelect from "./tenant-select";
 
 const Header = async () => {
+  const session = await getSession();
   const tenantResponse = await fetch(
     `${process.env.BACKEND_AUTH_URL}/api/v1/web/auth/tenants?perPage=100`,
     {
@@ -55,7 +57,7 @@ const Header = async () => {
             <Phone />
             <span>+91 7978020151</span>
           </div>
-          <Button size="sm">Logout</Button>
+          <Button size="sm">{session ? "Logout" : "Login"}</Button>
         </div>
       </nav>
     </header>
