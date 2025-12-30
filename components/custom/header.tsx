@@ -4,6 +4,7 @@ import { Phone } from "lucide-react";
 import Link from "next/link";
 import { Button } from "../ui/button";
 import HeaderActions from "./header-actions.client";
+import Logout from "./logout";
 import TenantSelect from "./tenant-select";
 
 const Header = async () => {
@@ -57,7 +58,13 @@ const Header = async () => {
             <Phone />
             <span>+91 7978020151</span>
           </div>
-          <Button size="sm">{session ? "Logout" : "Login"}</Button>
+          {session ? (
+            <Logout />
+          ) : (
+            <Button size="sm" asChild>
+              <Link href="/login">Login</Link>
+            </Button>
+          )}
         </div>
       </nav>
     </header>

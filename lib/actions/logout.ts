@@ -1,0 +1,21 @@
+"use server";
+
+import { cookies } from "next/headers";
+
+export const logout = async () => {
+  const response = await fetch(`${process.env.BACKEND_AUTH_URL}api/v1/web/auth/logout`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${(await cookies()).get("accessToken")?.value}`,
+      cookie: `refreshToken=${(await cookies()).get("refreshToken")?.value}`,
+    },
+  });
+
+  if (!response.ok) {
+    return false;
+  }
+
+  (await cookies()).delete("accessToken");
+  (await cookies()).delete("refreshToken");
+  return true;
+};
