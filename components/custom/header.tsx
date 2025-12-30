@@ -61,9 +61,14 @@ const Header = async () => {
           {session ? (
             <Logout />
           ) : (
-            <Button size="sm" asChild>
-              <Link href="/login">Login</Link>
-            </Button>
+            <>
+              <Button size="sm" asChild>
+                <Link href="/login">Login</Link>
+              </Button>
+              <Button size="sm" asChild>
+                <Link href="/register">SignUp</Link>
+              </Button>
+            </>
           )}
         </div>
       </nav>
