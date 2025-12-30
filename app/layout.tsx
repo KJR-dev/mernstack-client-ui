@@ -1,9 +1,10 @@
 import Header from "@/components/custom/header";
+import Refresher from "@/components/custom/refresher";
+import { Toaster } from "@/components/ui/sonner";
 import { cn } from "@/lib/utils";
 import { Manrope } from "next/font/google";
 import "./globals.css";
 import StoreProvider from "./StoreProvider";
-import { Toaster } from "@/components/ui/sonner";
 
 const manropeSans = Manrope({
   variable: "--font-manrope-sans",
@@ -22,9 +23,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             manrope.variable
           )}
         >
-          <Header />
-          <main>{children}</main>
-          <Toaster />
+          <Refresher>
+            <Header />
+            <main>{children}</main>
+            <Toaster />
+          </Refresher>
         </body>
       </StoreProvider>
     </html>
