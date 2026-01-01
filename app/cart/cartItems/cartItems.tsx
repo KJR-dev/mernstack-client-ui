@@ -1,12 +1,12 @@
 "use client";
+import { Button } from "@/components/ui/button";
+import { useAppSelector } from "@/lib/store/hooks";
+import { getItemTotal } from "@/lib/utils";
+import { ArrowRight, ShoppingCart } from "lucide-react";
+import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import CartItem from "./cartItem";
-import Link from "next/link";
-import { useAppSelector } from "@/lib/store/hooks";
-import { ArrowRight, ShoppingCart } from "lucide-react";
-import { useRouter, useSearchParams } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import { getItemTotal } from "@/lib/utils";
 
 const CartItems = () => {
   const searchParams = useSearchParams();
@@ -52,12 +52,8 @@ const CartItems = () => {
       ))}
       <div className="flex justify-between items-center">
         <span className="font-bold text-xl">&#8377;{finalTotal}</span>
-        <Button
-          onClick={() =>
-            router.push(`/checkout/tenantId=${searchParams.get("tenantId")}`)
-          }
-        >
-          Checkout
+        <Button>
+          <Link href="/checkout">Checkout</Link>
           <ArrowRight size={16} className="ml-2" />
         </Button>
       </div>
