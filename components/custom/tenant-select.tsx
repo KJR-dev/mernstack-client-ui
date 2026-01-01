@@ -14,7 +14,7 @@ const TenantSelect = ({ tenants }: { tenants: { data: Tenant[] } }) => {
   const searchParams = useSearchParams();
 
   const handleValueChange = (value: string) => {
-    router.push(`/?tenantId=${value}`);
+    router.push(`?tenantId=${value}`);
   };
   return (
     <Select onValueChange={handleValueChange} defaultValue={searchParams.get('tenantId') || ''}>

@@ -6,13 +6,14 @@ import { useRouter, useSearchParams } from "next/navigation";
 
 const CartCounter = () => {
   const searchParams = useSearchParams();
-  
-    const router = useRouter();
+  const tenantId = searchParams.get("tenantId");
+
+  const router = useRouter();
   const cartItems = useAppSelector((state) => state.cart.cartItems);
 
   return (
     <div className="relative">
-      <Link href="/cart">
+      <Link href={`/cart?tenantId=${tenantId}`}>
         <ShoppingBasket
           className="hover:text-primary"
           onClick={() =>

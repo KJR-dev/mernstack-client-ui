@@ -7,6 +7,7 @@ import login from "@/lib/actions/login";
 import { LoaderCircle } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { useFormState, useFormStatus } from "react-dom";
 
 const SubmitButton = () => {
@@ -31,9 +32,11 @@ const initialState = {
 };
 
 const Login = () => {
+  const searchParams = useSearchParams();
+  const tenantId = searchParams.get("tenantId");
   const [state, formAction] = useFormState(login, initialState);
   if (state.type === "success") {
-    window.location.href = '/';
+    window.location.href = `/?tenantId=${tenantId}`;
   }
   return (
     <div className="w-full lg:grid lg:min-h-[600px] lg:grid-cols-2 xl:min-h-[800px]">

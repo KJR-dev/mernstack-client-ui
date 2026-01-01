@@ -10,7 +10,8 @@ import CartItem from "./cartItem";
 
 const CartItems = () => {
   const searchParams = useSearchParams();
-  const router = useRouter();
+  const tenantId = searchParams.get("tenantId");
+
 
   const [isClient, setIsClient] = useState(false);
   useEffect(() => {
@@ -36,7 +37,7 @@ const CartItems = () => {
           Your cart is empty!{" "}
           <Link
             className="text-orange-500"
-            href={`/tenantId=${searchParams.get("tenantId")}`}
+            href={`/?tenantId=${searchParams.get("tenantId")}`}
           >
             continue shopping?
           </Link>
@@ -53,7 +54,7 @@ const CartItems = () => {
       <div className="flex justify-between items-center">
         <span className="font-bold text-xl">&#8377;{finalTotal}</span>
         <Button>
-          <Link href="/checkout">Checkout</Link>
+          <Link href={`/checkout?tenantId=${tenantId}`}>Checkout</Link>
           <ArrowRight size={16} className="ml-2" />
         </Button>
       </div>

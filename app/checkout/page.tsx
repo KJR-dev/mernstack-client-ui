@@ -17,12 +17,17 @@ import { getSession } from "@/lib/session";
 import { Coins, CreditCard, Plus } from "lucide-react";
 import { redirect } from "next/navigation";
 
-export default async function Checkout() {
+export default async function Checkout({
+  searchParams,
+}: {
+  searchParams: Promise<{ tenantId?: string }>;
+}) {
   //   const [paymentMode, setPaymentMode] = useState("card");
   //   const [coupon, setCoupon] = useState("");
+  const queryString = new URLSearchParams(await searchParams).toString();
   const session = await getSession();
   if (!session) {
-    redirect("/login");
+      redirect(`/login?${queryString}`);
   }
 
   return (
