@@ -34,7 +34,7 @@ export interface ProductPriceConfiguration {
   [key: string]: {
     priceType: "base" | "additional";
     availableOptions: {
-      [key: string]:number
+      [key: string]: number;
     };
   };
 }
@@ -49,7 +49,7 @@ export type Product = {
   attributes: ProductAttribute[];
   isPublish: boolean;
   createdAt: string;
-  tenantId?:string
+  tenantId?: string;
 };
 
 export type Topping = {
@@ -59,3 +59,19 @@ export type Topping = {
   price: number;
   // isAvailable: boolean;
 };
+
+export interface Address {
+  text: string;
+  isDefault: boolean;
+}
+
+export interface Customer {
+  userId: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  addresses: Address[];
+  tenantId: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+}

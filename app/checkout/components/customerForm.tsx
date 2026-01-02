@@ -5,6 +5,8 @@ import { DialogFooter, DialogHeader } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { getCustomer } from "@/lib/http/api";
+import { Customer } from "@/lib/types";
 import {
   Dialog,
   DialogContent,
@@ -13,9 +15,19 @@ import {
   DialogTrigger,
 } from "@radix-ui/react-dialog";
 import { RadioGroup, RadioGroupItem } from "@radix-ui/react-radio-group";
+import { useQuery } from "@tanstack/react-query";
 import { Coins, CreditCard, Plus } from "lucide-react";
 
 const CustomerForm = () => {
+  const { data: customer, isLoading } = useQuery({
+    queryKey: ["customer"],
+    queryFn: async () => {
+      return await getCustomer().then((res) => res.data);
+    },
+  });
+  if (isLoading) {
+    return <h3>Loading.....</h3>;
+  }
   return (
     <div className="container mx-auto mt-16 flex flex-col gap-6 lg:flex-row">
       {/* LEFT */}
@@ -27,17 +39,33 @@ const CustomerForm = () => {
         <CardContent className="grid gap-6">
           <div className="grid gap-3">
             <Label htmlFor="fname">First Name</Label>
-            <Input id="fname" placeholder="Enter first name" />
+            <Input
+              id="fname"
+              placeholder="Enter first name"
+              defaultValue={(customer as Customer)?.firstName}
+              disabled
+            />
           </div>
 
           <div className="grid gap-3">
-            <Label htmlFor="lname">Last Name</Label>
-            <Input id="lname" placeholder="Enter last name" />
+            <Label htmlFor="lastName">Last Name</Label>
+            <Input
+              id="lastName"
+              placeholder="Enter last name"
+              defaultValue={(customer as Customer)?.lastName}
+              disabled
+            />
           </div>
 
           <div className="grid gap-3">
             <Label htmlFor="email">Email</Label>
-            <Input id="email" type="email" placeholder="Enter email" />
+            <Input
+              id="email"
+              type="email"
+              placeholder="Enter email"
+              defaultValue={(customer as Customer)?.email}
+              disabled
+            />
           </div>
 
           {/* Address */}
