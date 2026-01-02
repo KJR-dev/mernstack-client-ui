@@ -4,6 +4,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { cn } from "@/lib/utils";
 import { Manrope } from "next/font/google";
 import "./globals.css";
+import QueryProvider from "./QueryProvider";
 import StoreProvider from "./StoreProvider";
 
 const manropeSans = Manrope({
@@ -23,11 +24,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             manrope.variable
           )}
         >
-          <Refresher>
-            <Header />
-            <main>{children}</main>
-            <Toaster />
-          </Refresher>
+          <QueryProvider>
+            <Refresher>
+              <Header />
+              <main>{children}</main>
+              <Toaster />
+            </Refresher>
+          </QueryProvider>
         </body>
       </StoreProvider>
     </html>
