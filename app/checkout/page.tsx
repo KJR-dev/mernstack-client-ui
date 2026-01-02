@@ -24,10 +24,12 @@ export default async function Checkout({
 }) {
   //   const [paymentMode, setPaymentMode] = useState("card");
   //   const [coupon, setCoupon] = useState("");
-  const queryString = new URLSearchParams(await searchParams).toString();
+  const sParams = new URLSearchParams(await searchParams);
+  const existingQueryString = sParams.toString();
+  sParams.append("return-to", `/checkout?${existingQueryString}`);
   const session = await getSession();
   if (!session) {
-      redirect(`/login?${queryString}`);
+    redirect(`/login?${sParams}`);
   }
 
   return (

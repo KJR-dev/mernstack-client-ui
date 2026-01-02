@@ -33,10 +33,13 @@ const initialState = {
 
 const Login = () => {
   const searchParams = useSearchParams();
+  const returnTo = searchParams.get("return-to");
   const tenantId = searchParams.get("tenantId");
   const [state, formAction] = useFormState(login, initialState);
   if (state.type === "success") {
-    window.location.href = `/?tenantId=${tenantId}`;
+    window.location.href = window.location.href = returnTo
+      ? returnTo
+      : `/?tenantId=${tenantId}`;
   }
   return (
     <div className="w-full lg:grid lg:min-h-[600px] lg:grid-cols-2 xl:min-h-[800px]">
