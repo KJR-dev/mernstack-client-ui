@@ -97,27 +97,19 @@ const CustomerForm = () => {
               </Dialog>
             </div>
 
-            <RadioGroup
-              defaultValue="1"
-              className="grid grid-cols-1 md:grid-cols-2 gap-4"
-            >
-              {[
-                {
-                  id: "1",
-                  label: "123, ABC Street, Malad West, Mumbai, Maharashtra 400064",
-                },
-                {
-                  id: "2",
-                  label: "Flat 501, Sunshine Apartments, Andheri East, Mumbai 400069",
-                },
-              ].map((address) => (
-                <Card key={address.id} className="p-4">
-                  <div className="flex items-start gap-2">
-                    <RadioGroupItem value={address.id} />
-                    <Label className="leading-normal">{address.label}</Label>
-                  </div>
-                </Card>
-              ))}
+            <RadioGroup defaultValue="option-one" className="grid grid-cols-2 gap-6 mt-2">
+              {(customer as Customer)?.addresses.map((address) => {
+                return (
+                  <Card className="p-6" key={address.text}>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="option-one" id="option-one" />
+                      <Label htmlFor="option-one" className="leading-normal">
+                        {address.text}
+                      </Label>
+                    </div>
+                  </Card>
+                );
+              })}
             </RadioGroup>
           </div>
 
