@@ -25,7 +25,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 const formSchema = z.object({
-  address: z.string().min(2, {
+  text: z.string().min(2, {
     message: "Address must be at least 2 characters.",
   }),
 });
@@ -36,15 +36,15 @@ const AddAddress = ({ customerId }: { customerId: string }) => {
   const addressForm = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      address: "",
+      text: "",
     },
   });
 
   const queryClient = useQueryClient();
   const { mutate, isPending, isError } = useMutation({
-    mutationKey: ["address", customerId],
-    mutationFn: async (address: string) => {
-      return await addAddress(customerId, address);
+    mutationKey: ["text", customerId],
+    mutationFn: async (text: string) => {
+      return await addAddress(customerId, text);
     },
     onSuccess: () => {
       addressForm.reset();
@@ -53,8 +53,12 @@ const AddAddress = ({ customerId }: { customerId: string }) => {
     },
   });
 
-  const handleAddressAdd = (data: z.infer<typeof formSchema>) => {
-    mutate(data.address);
+  const handleAddressAdd = (e: React.FormEvent<HTMLFormElement>) => {
+    e.stopPropagation();
+
+    return addressForm.handleSubmit((data: z.infer<typeof formSchema>) => {
+      mutate(data.text);
+    })(e);
   };
 
   return (
@@ -68,10 +72,7 @@ const AddAddress = ({ customerId }: { customerId: string }) => {
 
       <DialogContent>
         <Form {...addressForm}>
-          <form
-            onSubmit={addressForm.handleSubmit(handleAddressAdd)}
-            className="space-y-4"
-          >
+          <form onSubmit={handleAddressAdd} className="space-y-4">
             <DialogHeader>
               <DialogTitle>Add Address</DialogTitle>
               <DialogDescription>
@@ -80,7 +81,7 @@ const AddAddress = ({ customerId }: { customerId: string }) => {
             </DialogHeader>
             <FormField
               control={addressForm.control}
-              name="address"
+              name="text"
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
