@@ -9,7 +9,6 @@ import AddAddress from "./addAddress";
 import { useQuery } from "@tanstack/react-query";
 import { Coins, CreditCard } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Form,
@@ -24,6 +23,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Textarea } from "@/components/ui/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import OrderSummary from "./orderSummary";
 
 export const formSchema = z.object({
   address: z.string().min(1, "Please select an address"),
@@ -217,34 +217,7 @@ const CustomerForm = () => {
           </Card>
 
           {/* RIGHT */}
-          <Card className="lg:w-2/5 border-none self-start">
-            <CardHeader>
-              <CardTitle>Order Summary</CardTitle>
-            </CardHeader>
-
-            <CardContent className="grid gap-4">
-              {[
-                ["Subtotal", "₹8130"],
-                ["Taxes", "₹82"],
-                ["Delivery", "₹100"],
-                ["Discount", "₹0"],
-              ].map(([label, value]) => (
-                <div key={label} className="flex justify-between">
-                  <span>{label}</span>
-                  <span className="font-semibold">{value}</span>
-                </div>
-              ))}
-
-              <hr />
-
-              <div className="flex justify-between font-bold">
-                <span>Total</span>
-                <span>₹8300</span>
-              </div>
-
-              <Button className="mt-4 w-full">Place Order</Button>
-            </CardContent>
-          </Card>
+          <OrderSummary />
         </div>
       </form>
     </Form>
