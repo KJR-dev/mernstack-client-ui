@@ -66,7 +66,7 @@ export interface Address {
 }
 
 export interface Customer {
-  _id:string,
+  _id: string;
   userId: string;
   firstName: string;
   lastName: string;
@@ -75,4 +75,9 @@ export interface Customer {
   tenantId: string;
   createdAt?: Date;
   updatedAt?: Date;
+}
+
+export type CouponCodeData ={
+  code: string;
+  tenantId: string;
 }
