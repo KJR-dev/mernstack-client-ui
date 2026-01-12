@@ -1,12 +1,13 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 import { z } from "zod";
 
-import { getCustomer } from "@/lib/http/api";
-import { Customer } from "@/lib/types";
+import { createOrder, getCustomer } from "@/lib/http/api";
+import { Customer, OrderData } from "@/lib/types";
 import AddAddress from "./addAddress";
 
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { Coins, CreditCard } from "lucide-react";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -66,6 +67,17 @@ const CustomerForm = () => {
     setSelectedAddress(firstDefaultIndex !== -1 ? firstDefaultIndex : 0);
   }, [customer]);
 
+  const { mutate } = useMutation({
+    mutationKey: ["order"],
+    retry: 3,
+    mutationFn: async (data: OrderData) => {
+      console.log("Calling mutation function");
+      // todo: make sure that the same key is sent if button is clicked  again
+      // todo: check if retries work as excepted
+      const idempotencyKey = uuidv4() + customer?._id;
+      await createOrder(data, idempotencyKey);
+    },
+  });
   if (isLoading) return <h3>Loading...</h3>;
 
   const handlePlaceOrder = (data: z.infer<typeof formSchema>) => {
@@ -78,12 +90,12 @@ const CustomerForm = () => {
       cart: cart.cartItems,
       couponCode: chosenCouponCode.current ? chosenCouponCode.current : "",
       tenantId: tenantId,
-      customerId: customer?._id,
-      comment: data.comment,
+      customerId: customer?._id ?? "",
+      comment: data.comment ?? "",
       address: data.address,
       paymentMode: data.paymentMode,
     };
-    console.log("data", orderData);
+    mutate(orderData); 
   };
 
   return (

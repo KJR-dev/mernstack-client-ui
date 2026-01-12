@@ -1,3 +1,5 @@
+import { CartItem } from "../store/features/cart/cartSlice";
+
 export interface Tenant {
   id: string;
   name: string;
@@ -80,4 +82,51 @@ export interface Customer {
 export type CouponCodeData ={
   code: string;
   tenantId: string;
-}
+};
+
+
+// export interface CartItem extends Pick<
+//   Product,
+//   "_id" | "name" | "image" | "priceConfiguration"
+// > {
+//   reduce(arg0: (acc: any, item: any) => any[], arg1: undefined[]): unknown;
+//   map(arg0: (item: any) => any): unknown;
+//   chosenConfiguration: {
+//     priceConfiguration: {
+//       [key: string]: string;
+//     };
+//     selectedToppings: Topping[];
+//   };
+//   qty: number;
+// }
+
+
+// export enum PaymentStatus {
+//   PENDING = "pending",
+//   PAID = "paid",
+//   FAILED = "failed",
+// }
+
+// export enum PaymentMode {
+//   CARD = "card",
+//   CASH = "cash",
+// }
+
+// export enum OrderStatus {
+//   RECEIVED = "received",
+//   CONFIRMED = "confirmed",
+//   PREPARING = "preparing",
+//   READY_FOR_DELIVERY = "ready_for_delivery",
+//   OUT_FOR_DELIVERY = "out_for_delivery",
+//   REJECT = "reject",
+// }
+
+export type OrderData = {
+  cart: CartItem[]; 
+  couponCode: string,
+  tenantId: string,
+  customerId: string,
+  comment: string,
+  address: string,
+  paymentMode:string
+};
