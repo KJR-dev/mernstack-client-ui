@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { z } from "zod";
 
 import { getCustomer } from "@/lib/http/api";
@@ -21,7 +21,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Textarea } from "@/components/ui/textarea";
+import { useAppSelector } from "@/lib/store/hooks";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import OrderSummary from "./orderSummary";
 
@@ -38,6 +40,9 @@ export const formSchema = z.object({
 const CustomerForm = () => {
   const [selectedAddress, setSelectedAddress] = useState<number | null>(null);
   const [paymentMode, setPaymentMode] = useState<string>("card");
+  const chosenCouponCode = useRef("");
+  const cart = useAppSelector((state) => state.cart);
+  const searchParams = useSearchParams();
 
   const customerForm = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -64,7 +69,21 @@ const CustomerForm = () => {
   if (isLoading) return <h3>Loading...</h3>;
 
   const handlePlaceOrder = (data: z.infer<typeof formSchema>) => {
-    console.log("data", data);
+    const tenantId = searchParams.get("tenantId");
+    if (!tenantId) {
+      alert("Tenant id is required");
+      return;
+    }
+    const orderData = {
+      cart: cart.cartItems,
+      couponCode: chosenCouponCode.current ? chosenCouponCode.current : "",
+      tenantId: tenantId,
+      customerId: customer?._id,
+      comment: data.comment,
+      address: data.address,
+      paymentMode: data.paymentMode,
+    };
+    console.log("data", orderData);
   };
 
   return (
@@ -217,7 +236,11 @@ const CustomerForm = () => {
           </Card>
 
           {/* RIGHT */}
-          <OrderSummary />
+          <OrderSummary
+            handleCouponCodeChange={(code) => {
+              chosenCouponCode.current = code;
+            }}
+          />
         </div>
       </form>
     </Form>

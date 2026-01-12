@@ -12,7 +12,11 @@ import { MouseEvent, useMemo, useRef, useState } from "react";
 const TAXEX_PERCENTAGE = 18;
 const DELIVERY_CHARGES = 100;
 
-const OrderSummary = () => {
+const OrderSummary = ({
+  handleCouponCodeChange,
+}: {
+  handleCouponCodeChange: (code: string) => void;
+}) => {
   const searchParams = useSearchParams();
   const [discountPercentage, setDiscountPercentage] = useState(0);
   const [discountError, setDiscountError] = useState<string | null>(null);
@@ -61,10 +65,12 @@ const OrderSummary = () => {
     onSuccess: (data) => {
       if ((data as any).valid) {
         setDiscountError("");
+        handleCouponCodeChange(couponCodeRef.current ? couponCodeRef.current.value : "");
         setDiscountPercentage((data as any).discount);
         return;
       }
       setDiscountError("Coupon is invalid");
+      handleCouponCodeChange("");
       setDiscountPercentage(0);
     },
   });
