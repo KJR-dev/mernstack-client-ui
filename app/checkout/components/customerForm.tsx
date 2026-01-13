@@ -75,9 +75,23 @@ const CustomerForm = () => {
       const idempotencyKey = idempotencyKeyRef.current
         ? idempotencyKeyRef.current
         : (idempotencyKeyRef.current = uuidv4() + customer?._id);
-      await createOrder(data, idempotencyKey);
+      const res = await createOrder(data, idempotencyKey);
+      return res.data as { paymentUrl: string | null };
+    },
+    onSuccess: (data: { paymentUrl: string | null }) => {
+      if (data.paymentUrl) {
+        window.location.href = data.paymentUrl;
+      }
+
+      alert("Order placed successfully");
+      // todo: This will happen if payment mode is cash mode
+      // todo:
+      // 1. clear the cart
+      // 2. Redirect the user to order status page
+      alert("Order placed successfully");
     },
   });
+  
   if (isLoading) return <h3>Loading...</h3>;
 
   const handlePlaceOrder = (data: z.infer<typeof formSchema>) => {
