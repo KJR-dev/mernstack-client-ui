@@ -11,12 +11,10 @@ const Payment = async ({
   searchParams: Promise<{
     success?: string;
     orderId?: string;
+    tenantId?: string;
   }>;
 }) => {
-  {
-    /* todo: get tenantId from redirect url, add it on backend. */
-  }
-  const { success, orderId } = await searchParams;
+  const { success, orderId, tenantId } = await searchParams;
   const isOrderSuccess = success === "true";
 
   return (
@@ -90,7 +88,7 @@ const Payment = async ({
         <>
           <Button asChild size="lg" className="mt-8">
             <Link
-              href={`/order-status/${(await searchParams).orderId}`}
+              href={`/order-status/${orderId}?tenantId=${tenantId}`}
               className="flex items-center gap-2"
             >
               <ArrowLeft size={18} />
@@ -100,8 +98,7 @@ const Payment = async ({
         </>
       ) : (
         <Button asChild size="lg" className="mt-8">
-          {/* todo: get tenantId from redirect url, add it on backend. */}
-          <Link href="/checkout" className="flex items-center gap-2">
+          <Link href={`/checkout?tenantId=${tenantId}`} className="flex items-center gap-2">
             <ArrowLeft size={18} />
             Go to checkout
           </Link>
