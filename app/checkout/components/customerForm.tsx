@@ -22,10 +22,12 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Textarea } from "@/components/ui/textarea";
+import { clearCart } from "@/lib/store/features/cart/cartSlice";
 import { useAppSelector } from "@/lib/store/hooks";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
 import OrderSummary from "./orderSummary";
 
 export const formSchema = z.object({
@@ -45,6 +47,7 @@ const CustomerForm = () => {
   const idempotencyKeyRef = useRef("");
   const cart = useAppSelector((state) => state.cart);
   const searchParams = useSearchParams();
+  const dispatch = useDispatch();
 
   const customerForm = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -84,6 +87,7 @@ const CustomerForm = () => {
       }
 
       alert("Order placed successfully");
+      dispatch(clearCart());
       // todo: This will happen if payment mode is cash mode
       // todo:
       // 1. clear the cart
@@ -91,7 +95,7 @@ const CustomerForm = () => {
       alert("Order placed successfully");
     },
   });
-  
+
   if (isLoading) return <h3>Loading...</h3>;
 
   const handlePlaceOrder = (data: z.infer<typeof formSchema>) => {
