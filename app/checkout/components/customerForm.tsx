@@ -68,7 +68,7 @@ const CustomerForm = () => {
     setSelectedAddress(firstDefaultIndex !== -1 ? firstDefaultIndex : 0);
   }, [customer]);
 
-  const { mutate } = useMutation({
+  const { mutate, isPending: isPlaceOrderPending } = useMutation({
     mutationKey: ["order"],
     retry: 3,
     mutationFn: async (data: OrderData) => {
@@ -249,6 +249,7 @@ const CustomerForm = () => {
 
           {/* RIGHT */}
           <OrderSummary
+            isPlaceOrderPending={isPlaceOrderPending}
             handleCouponCodeChange={(code) => {
               chosenCouponCode.current = code;
             }}
