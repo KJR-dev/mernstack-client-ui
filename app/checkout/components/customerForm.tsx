@@ -42,6 +42,7 @@ const CustomerForm = () => {
   const [selectedAddress, setSelectedAddress] = useState<number | null>(null);
   const [paymentMode, setPaymentMode] = useState<string>("card");
   const chosenCouponCode = useRef("");
+  const idempotencyKeyRef = useRef("");
   const cart = useAppSelector((state) => state.cart);
   const searchParams = useSearchParams();
 
@@ -71,10 +72,9 @@ const CustomerForm = () => {
     mutationKey: ["order"],
     retry: 3,
     mutationFn: async (data: OrderData) => {
-      console.log("Calling mutation function");
-      // todo: make sure that the same key is sent if button is clicked  again
-      // todo: check if retries work as excepted
-      const idempotencyKey = uuidv4() + customer?._id;
+      const idempotencyKey = idempotencyKeyRef.current
+        ? idempotencyKeyRef.current
+        : (idempotencyKeyRef.current = uuidv4() + customer?._id);
       await createOrder(data, idempotencyKey);
     },
   });
@@ -95,7 +95,7 @@ const CustomerForm = () => {
       address: data.address,
       paymentMode: data.paymentMode,
     };
-    mutate(orderData); 
+    mutate(orderData);
   };
 
   return (
