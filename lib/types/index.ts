@@ -79,11 +79,10 @@ export interface Customer {
   updatedAt?: Date;
 }
 
-export type CouponCodeData ={
+export type CouponCodeData = {
   code: string;
   tenantId: string;
 };
-
 
 // export interface CartItem extends Pick<
 //   Product,
@@ -99,7 +98,6 @@ export type CouponCodeData ={
 //   };
 //   qty: number;
 // }
-
 
 // export enum PaymentStatus {
 //   PENDING = "pending",
@@ -122,11 +120,27 @@ export type CouponCodeData ={
 // }
 
 export type OrderData = {
-  cart: CartItem[]; 
-  couponCode: string,
-  tenantId: string,
-  customerId: string,
-  comment: string,
-  address: string,
-  paymentMode:string
+  cart: CartItem[];
+  couponCode: string;
+  tenantId: string;
+  customerId: string;
+  comment: string;
+  address: string;
+  paymentMode: string;
 };
+
+export interface Order {
+  _id: string;
+  customerId: Customer;
+  total: number;
+  discount: number;
+  taxes: number;
+  deliveryCharges: number;
+  address: string;
+  tenantId: string;
+  comment?: string;
+  paymentMode: string;
+  orderStatus: string;
+  paymentStatus: string;
+  createdAt: string;
+}
