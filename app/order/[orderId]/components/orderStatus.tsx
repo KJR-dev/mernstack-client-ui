@@ -35,7 +35,15 @@ const StepperChanger = ({ orderId }: { orderId: string }) => {
     queryFn: async () => {
       return await getSingleOrder(orderId).then((res) => res.data);
     },
-    refetchInterval: 1000 * 30,
+    refetchInterval: (query) => {
+      const order = query.state.data as Order | undefined;
+
+      if (order?.orderStatus === "delivered") {
+        return false;
+      }
+
+      return 1000 * 30;
+    },
   });
   useEffect(() => {
     if (data) {
