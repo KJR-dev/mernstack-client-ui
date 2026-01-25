@@ -18,7 +18,7 @@ const ProductList = async ({ searchParams }: { searchParams: { tenantId?: string
   const categories: Category[] = await categoriesResponse.json();
 
   const productResponse = await fetch(
-    `${process.env.BACKEND_CATEGORIES_URL}/api/v1/catalog/products?currentPage=100&tenantId=${tenantId}`,
+    `${process.env.BACKEND_CATEGORIES_URL}/api/v1/catalog/products?currentPage=100&limit=100&tenantId=${tenantId}`,
     { next: { revalidate: 3600 } }
   );
 
