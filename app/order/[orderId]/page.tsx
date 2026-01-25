@@ -7,26 +7,26 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { Banknote, Coins, LayoutDashboard } from "lucide-react";
-import OrderStatus from "./components/orderStatus";
-import { cookies } from "next/headers";
 import { Order } from "@/lib/types";
+import { Banknote, Coins, LayoutDashboard } from "lucide-react";
+import { cookies } from "next/headers";
+import OrderStatus from "./components/orderStatus";
 
 const SingleOrder = async ({ params }: { params: Promise<{ orderId: string }> }) => {
-    const orderId = (await params).orderId;
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_ORDER_URL}/api/v1/order/orders/${orderId}?fields=address,paymentStatus,paymentMode`,
-      {
-        headers: {
-          Authorization: `Bearer ${(await cookies()).get("accessToken")?.value}`,
-        },
-      }
-    );
-
-    if (!response.ok) {
-      throw new Error("Failed to fetch single order");
+  const orderId = (await params).orderId;
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_ORDER_URL}/api/v1/order/orders/${orderId}?fields=address,paymentStatus,paymentMode`,
+    {
+      headers: {
+        Authorization: `Bearer ${(await cookies()).get("accessToken")?.value}`,
+      },
     }
-    const order: Order = await response.json();
+  );
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch single order");
+  }
+  const order: Order = await response.json();
 
   return (
     <div className="flex justify-center px-4 py-8 bg-muted/30 min-h-screen">
@@ -39,7 +39,7 @@ const SingleOrder = async ({ params }: { params: Promise<{ orderId: string }> })
             <CardDescription>Track the order status</CardDescription>
           </CardHeader>
           <CardContent>
-            <OrderStatus orderId={ order._id} />
+            <OrderStatus orderId={order._id} />
           </CardContent>
         </Card>
 
@@ -52,10 +52,10 @@ const SingleOrder = async ({ params }: { params: Promise<{ orderId: string }> })
             </CardHeader>
             <Separator />
             <CardContent className="pt-6">
-              <h2 className="font-semibold">{order.customerId.firstName+" "+order.customerId.lastName}</h2>
-              <p className="mt-2 text-sm text-muted-foreground">
-                {order.address}
-              </p>
+              <h2 className="font-semibold">
+                {order.customerId.firstName + " " + order.customerId.lastName}
+              </h2>
+              <p className="mt-2 text-sm text-muted-foreground">{order.address}</p>
             </CardContent>
           </Card>
 
@@ -69,19 +69,21 @@ const SingleOrder = async ({ params }: { params: Promise<{ orderId: string }> })
               <div className="flex items-center gap-3">
                 <LayoutDashboard size={18} />
                 <span className="font-medium">Order reference:</span>
-                              <span className="text-muted-foreground">{order._id}</span>
+                <span className="text-muted-foreground">{order._id}</span>
               </div>
 
               <div className="flex items-center gap-3">
                 <Banknote size={18} />
                 <span className="font-medium">Payment status:</span>
-                              <span className="text-green-600 font-medium">{ order.paymentStatus.toUpperCase()}</span>
+                <span className="text-green-600 font-medium">
+                  {order.paymentStatus.toUpperCase()}
+                </span>
               </div>
 
               <div className="flex items-center gap-3">
                 <Coins size={18} />
                 <span className="font-medium">Payment method:</span>
-                              <span className="capitalize">{ order.paymentMode.toUpperCase()}</span>
+                <span className="capitalize">{order.paymentMode.toUpperCase()}</span>
               </div>
 
               <Button variant="destructive" className="mt-6 w-fit">
