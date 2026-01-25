@@ -55,7 +55,7 @@ const Payment = async ({
                       Order reference:
                     </span>
                     <Link
-                      href={`/order-status/${orderId}`}
+                      href={`/order/${(await searchParams).orderId}`}
                       className="font-semibold underline underline-offset-4"
                     >
                       {orderId}
